@@ -13,7 +13,7 @@ irm https://raw.githubusercontent.com/WyverncW/cat-cli/main/install.ps1 | iex
 
 **macOS/Linux (Bash):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/cat-cli/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/WyvernCW/cat-cli/main/install.sh | bash
 ```
 
 ### Setup
