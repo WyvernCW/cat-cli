@@ -60,6 +60,9 @@ export class AgentLoop {
     this.state.turns++;
     this.state.updated_at = Date.now();
 
+    // Trigger UI update immediately after user message added
+    callbacks?.onTextChunk?.(''); 
+
     // Generate title if it's the first turn
     if (this.state.turns === 1 && this.state.title === 'New Session') {
       generateSessionTitle(this.config, userInput).then(title => {

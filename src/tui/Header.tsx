@@ -15,7 +15,7 @@ export const Header: React.FC<HeaderProps> = ({ config, sessionId, turnCount, me
       <Box flexDirection="row" justifyContent="space-between">
         <Box>
           <Text bold color="cyan">(=^.^=) CAT </Text>
-          <Text dimColor> · minimax-m2.7 </Text>
+          <Text dimColor> · tacAI-1.0 </Text>
           <Text color="yellow"> · [${config.style}] </Text>
           <Text color={config.search_enabled ? 'green' : 'red'}> · 🔍 Search:${config.search_enabled ? 'ON' : 'OFF'}</Text>
         </Box>

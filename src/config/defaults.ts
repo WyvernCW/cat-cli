@@ -1,7 +1,7 @@
 import type { Config, Theme, ThemeName } from './schema.js';
 
 export const DEFAULTS: Config = {
-  nvidia_api_key: '',
+  nvidia_api_key: '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',
   style: 'default',
   theme: 'default',
   search_enabled: true,

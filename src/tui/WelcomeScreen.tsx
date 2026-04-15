@@ -34,7 +34,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onComplete, name }
           <Box marginTop={1} height={5}>
             <CatMascot state="IDLE" />
           </Box>
-          <Text dimColor marginTop={1}>minimax-m2.7</Text>
+          <Text dimColor marginTop={1}>tacAI-1.0</Text>
           <Text dimColor>NVIDIA API</Text>
         </Box>
         <Box flexDirection="column" marginLeft={2} flexGrow={1}>
