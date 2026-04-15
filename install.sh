@@ -31,13 +31,15 @@ echo -e "\033[90mCloning repository...\033[0m"
 git clone https://github.com/WyverncW/cat-cli.git "$TEMP_DIR" --quiet
 
 cd "$TEMP_DIR"
-echo -e "\033[90mInstalling dependencies & building...\033[0m"
-npm install --quiet --no-warnings --loglevel error
+echo -e "\033[90mInstalling dependencies...\033[0m"
+npm install --quiet --no-warnings --no-audit --no-fund --loglevel error
+echo -e "\033[90mBuilding CAT...\033[0m"
 npm run build --quiet
 
-echo -e "\033[90mPackaging & installing globally...\033[0m"
-PACK_FILE=$(npm pack --quiet | tail -n 1)
-npm install -g "$TEMP_DIR/$PACK_FILE" --quiet --no-warnings --loglevel error
+echo -e "\033[90mInstalling globally...\033[0m"
+npm pack --quiet --no-warnings --loglevel error
+PACK_FILE=$(ls cat-cli-*.tgz | head -n 1)
+npm install -g "$TEMP_DIR/$PACK_FILE" --quiet --no-warnings --no-audit --no-fund --loglevel error
 
 cd - > /dev/null
 rm -rf "$TEMP_DIR"

@@ -34,14 +34,16 @@ git clone https://github.com/WyverncW/cat-cli.git $tempDir --quiet
 
 Push-Location $tempDir
 
-Write-Host "Installing dependencies & building..." -ForegroundColor Gray
-npm install --quiet --no-warnings --loglevel error
+Write-Host "Installing dependencies..." -ForegroundColor Gray
+npm install --quiet --no-warnings --no-audit --no-fund --loglevel error
+Write-Host "Building CAT..." -ForegroundColor Gray
 npm run build --quiet
 
-Write-Host "Packaging & installing globally..." -ForegroundColor Gray
-$packFile = npm pack --quiet | Out-String
-$packFile = $packFile.Trim()
-npm install -g "$tempDir\$packFile" --quiet --no-warnings --loglevel error
+Write-Host "Installing globally..." -ForegroundColor Gray
+# Use a predictable pack filename by setting version explicitly or just using glob
+npm pack --quiet --no-warnings --loglevel error
+$packFile = Get-ChildItem "cat-cli-*.tgz" | Select-Object -First 1 -ExpandProperty Name
+npm install -g "$tempDir\$packFile" --quiet --no-warnings --no-audit --no-fund --loglevel error
 
 Pop-Location
 Remove-Item -Recurse -Force $tempDir
