@@ -8,7 +8,7 @@ CAT is a production-grade, fully featured agentic terminal AI powered by **Minim
 
 **Windows (PowerShell):**
 ```powershell
-irm https://raw.githubusercontent.com/YOUR_USERNAME/cat-cli/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/WyverncW/cat-cli/main/install.ps1 | iex
 ```
 
 **macOS/Linux (Bash):**
