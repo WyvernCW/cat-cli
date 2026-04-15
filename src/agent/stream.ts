@@ -169,7 +169,7 @@ export async function streamFromNvidia(
     } catch (error: any) {
       attempt++;
       if (attempt >= retries) throw error;
-      await new Promise(res => setTimeout(resolve, 1000 * attempt)); // Exponential backoff
+      await new Promise(res => setTimeout(res, 1000 * attempt)); // Fixed: changed resolve to res
     }
   }
   throw new Error('Streaming failed after max retries.');
