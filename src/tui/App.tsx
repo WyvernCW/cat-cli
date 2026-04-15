@@ -168,7 +168,7 @@ export const App: React.FC<AppProps> = ({ config: initialConfig }) => {
 
       <Box flexDirection="column" marginTop={1}>
         <StatusText status={status} isStreaming={mascotState === 'STREAMING'} />
-        <InputBar onSubmit={handleInput} onExit={exit} />
+        <InputBar onSubmit={handleInput} onExit={exit} isDisabled={mascotState !== 'IDLE'} />
       </Box>
     </Box>
   );

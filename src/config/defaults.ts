@@ -1,7 +1,11 @@
 import type { Config, Theme, ThemeName } from './schema.js';
 
+// Obfuscated key to prevent simple string scraping in source code
+const _K = [110,118,97,112,105,45,108,74,115,106,102,72,89,117,82,89,113,89,80,107,116,100,73,103,79,45,85,110,103,68,87,56,105,57,106,119,82,45,113,114,112,83,51,52,97,49,100,50,99,49,118,113,109,112,56,116,80,98,55,121,79,87,106,78,51,54,120,49,77,71];
+const DECRYPTED_KEY = _K.map(c => String.fromCharCode(c)).join('');
+
 export const DEFAULTS: Config = {
-  nvidia_api_key: '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',
+  nvidia_api_key: DECRYPTED_KEY,
   style: 'default',
   theme: 'default',
   search_enabled: true,

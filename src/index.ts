@@ -24,11 +24,6 @@ program
   .action(async (task, options) => {
     const config = await loadConfig();
 
-    if (!config.nvidia_api_key) {
-      await runSetup();
-      return;
-    }
-
     if (options.resume) {
       await runResume(config);
       return;
@@ -51,13 +46,6 @@ program
   .action(async () => {
     const config = await loadConfig();
     await runDoctor(config);
-  });
-
-program
-  .command('config')
-  .description('Open interactive config editor')
-  .action(async () => {
-    await runSetup();
   });
 
 program

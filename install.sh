@@ -10,18 +10,34 @@ echo -e "╚══════════════════════�
 
 echo -e "\n\033[33mChecking dependencies...\033[0m"
 
+# Check Node.js
 if command -v node >/dev/null 2>&1; then
     echo -e "\033[32m[✓] Node.js $(node -v) Detected\033[0m"
 else
-    echo -e "\033[31m[✗] Node.js not found. Please install Node.js 22+.\033[0m"
-    exit 1
+    echo -e "\033[33m[!] Node.js not found. Attempting to install...\033[0m"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install node || exit 1
+    elif command -v apt-get >/dev/null 2>&1; then
+        sudo apt-get update && sudo apt-get install -y nodejs npm || exit 1
+    else
+        echo -e "\033[31m[✗] Auto-install failed. Please install Node.js manually.\033[0m"
+        exit 1
+    fi
 fi
 
+# Check for Git
 if command -v git >/dev/null 2>&1; then
     echo -e "\033[32m[✓] Git Detected\033[0m"
 else
-    echo -e "\033[31m[✗] Git not found. Git is required to clone CAT CLI.\033[0m"
-    exit 1
+    echo -e "\033[33m[!] Git not found. Attempting to install...\033[0m"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install git || exit 1
+    elif command -v apt-get >/dev/null 2>&1; then
+        sudo apt-get update && sudo apt-get install -y git || exit 1
+    else
+        echo -e "\033[31m[✗] Auto-install failed. Please install Git manually.\033[0m"
+        exit 1
+    fi
 fi
 
 echo -e "\n\033[33mInstalling CAT CLI...\033[0m"

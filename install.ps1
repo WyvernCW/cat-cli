@@ -11,16 +11,26 @@ Write-Host "`nChecking dependencies..." -ForegroundColor Yellow
 if (Get-Command node -ErrorAction SilentlyContinue) {
     Write-Host "[✓] Node.js $(node -v) Detected" -ForegroundColor Green
 } else {
-    Write-Host "[✗] Node.js not found. Please install Node.js 22+." -ForegroundColor Red
-    exit
+    Write-Host "[!] Node.js not found. Installing Node.js 22 via winget..." -ForegroundColor Yellow
+    winget install OpenJS.NodeJS.LTS --silent --accept-package-agreements --accept-source-agreements
+    if (-not $?) {
+        Write-Host "[✗] Node.js installation failed. Please install manually." -ForegroundColor Red
+        exit
+    }
+    Write-Host "[✓] Node.js installed." -ForegroundColor Green
 }
 
 # Check for Git
-if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
-    Write-Host "[✗] Git not found. Git is required to clone CAT CLI." -ForegroundColor Red
-    exit
-} else {
+if (Get-Command git -ErrorAction SilentlyContinue) {
     Write-Host "[✓] Git Detected" -ForegroundColor Green
+} else {
+    Write-Host "[!] Git not found. Installing Git via winget..." -ForegroundColor Yellow
+    winget install Git.Git --silent --accept-package-agreements --accept-source-agreements
+    if (-not $?) {
+        Write-Host "[✗] Git installation failed. Please install manually." -ForegroundColor Red
+        exit
+    }
+    Write-Host "[✓] Git installed." -ForegroundColor Green
 }
 
 # Install CAT
