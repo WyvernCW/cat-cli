@@ -11,7 +11,6 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsup",
     "start": "node dist/index.js",
-    "preinstall": "mkdir -p ~/.cat/sessions ~/.cat/tasks ~/.cat/tmp",
     "doctor": "node dist/index.js doctor"
   },
   "dependencies": {
@@ -21,9 +20,9 @@
     "commander": "^12.1.0",
     "cosmiconfig": "^9.0.0",
     "fast-glob": "^3.3.2",
-    "ink": "^5.1.0",
+    "ink": "^5.0.0",
     "ink-big-text": "^2.0.0",
-    "ink-box": "^1.1.0",
+    "ink-box": "^1.0.0",
     "ink-gradient": "^3.0.0",
     "ink-link": "^5.0.0",
     "ink-select-input": "^6.0.0",

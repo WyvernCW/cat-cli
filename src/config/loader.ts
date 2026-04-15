@@ -9,6 +9,18 @@ const CONFIG_DIR = path.join(os.homedir(), '.cat');
 const CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 
 export async function loadConfig(): Promise<Config> {
+  // Ensure required directories exist (Section 27)
+  const dirs = [
+    CONFIG_DIR,
+    path.join(CONFIG_DIR, 'sessions'),
+    path.join(CONFIG_DIR, 'tasks'),
+    path.join(CONFIG_DIR, 'tmp')
+  ];
+  
+  for (const dir of dirs) {
+    await fs.mkdir(dir, { recursive: true });
+  }
+
   const explorer = cosmiconfig('cat', {
     searchPlaces: [
       'config.json',
