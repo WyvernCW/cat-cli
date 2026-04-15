@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Box, useInput, useApp, Text } from 'ink';
 import { Header } from './Header.js';
 import { MessageList } from './MessageList.js';
+import { ThinkBlock } from './ThinkBlock.js';
 import { InputBar } from './InputBar.js';
 import { WelcomeScreen } from './WelcomeScreen.js';
 import { TodoWidget } from './TodoWidget.js';
@@ -61,6 +62,10 @@ export const App: React.FC<AppProps> = ({ config: initialConfig }) => {
     if (input === 'q' && messages.length === 0) exit();
   });
 
+  const [currentThink, setCurrentThink] = useState('');
+  const [thinkElapsed, setThinkElapsed] = useState(0);
+  const thinkStartTime = useRef<number>(0);
+
   const handleInput = async (value: string) => {
     setShowSlashMenu(false);
     setShowHelp(false);
@@ -72,15 +77,25 @@ export const App: React.FC<AppProps> = ({ config: initialConfig }) => {
       return;
     }
 
+    setCurrentThink('');
+    setThinkElapsed(0);
+    thinkStartTime.current = Date.now();
     setStatus('Thinking...');
+    
     await agent.run(value, {
       onMascotState: setMascotState,
       onStatus: setStatus,
-      onTextChunk: () => setMessages([...agent.getState().messages]),
-      onThinkChunk: () => {/* Optional: update think block */},
+      onTextChunk: () => {
+        setMessages([...agent.getState().messages]);
+      },
+      onThinkChunk: (chunk) => {
+        setCurrentThink(prev => prev + chunk);
+        setThinkElapsed(Date.now() - thinkStartTime.current);
+      },
     });
     
     setMessages([...agent.getState().messages]);
+    setCurrentThink(''); // Clear thinking after done
     setStatus('Done');
     setTimeout(() => {
       setStatus('Ready');
@@ -124,6 +139,9 @@ export const App: React.FC<AppProps> = ({ config: initialConfig }) => {
       
       <Box flexGrow={1} flexDirection="column" minHeight={0}>
         <MessageList messages={messages} currentMascotState={mascotState} />
+        {currentThink && (
+          <ThinkBlock content={currentThink} isStreaming={true} elapsedMs={thinkElapsed} />
+        )}
       </Box>
 
       {/* Overlays */}

@@ -81,25 +81,29 @@ export class AgentLoop {
       callbacks?.onMascotState?.('THINKING');
       callbacks?.onStatus?.('Thinking...');
 
+      // Create a placeholder for the assistant message to support streaming
+      const assistantMessage: Message = { role: 'assistant', content: '' };
+      this.state.messages.push(assistantMessage);
+
       const response = await streamFromNvidia(
         this.config.nvidia_api_key,
         systemPrompt,
-        this.state.messages,
+        this.state.messages.slice(0, -1), // Exclude the placeholder
         TOOL_SCHEMAS,
         {
-          onThinkChunk: callbacks?.onThinkChunk,
+          onThinkChunk: (chunk) => {
+            callbacks?.onThinkChunk?.(chunk);
+          },
           onTextChunk: (chunk) => {
+            assistantMessage.content += chunk;
             callbacks?.onMascotState?.('STREAMING');
             callbacks?.onTextChunk?.(chunk);
           },
         }
       );
 
-      // 4. Store assistant message
-      this.state.messages.push({ 
-        role: 'assistant', 
-        content: response.textContent 
-      });
+      // 4. Update assistant message with final content
+      assistantMessage.content = response.textContent;
       await saveSession(this.state);
 
       // 5. Check if we need to execute tools
