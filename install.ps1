@@ -37,6 +37,8 @@ Push-Location $tempDir
 Write-Host "Installing dependencies & building..." -ForegroundColor Gray
 npm install --quiet
 npm run build --quiet
+
+Write-Host "Installing globally..." -ForegroundColor Gray
 npm install -g . --quiet
 
 Pop-Location
