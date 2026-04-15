@@ -17,8 +17,27 @@ else
     exit 1
 fi
 
+if command -v git >/dev/null 2>&1; then
+    echo -e "\033[32m[✓] Git Detected\033[0m"
+else
+    echo -e "\033[31m[✗] Git not found. Git is required to clone CAT CLI.\033[0m"
+    exit 1
+fi
+
 echo -e "\n\033[33mInstalling CAT CLI...\033[0m"
-npm install -g .
+
+TEMP_DIR=$(mktemp -d)
+echo -e "\033[90mCloning repository...\033[0m"
+git clone https://github.com/WyverncW/cat-cli.git "$TEMP_DIR" --quiet
+
+cd "$TEMP_DIR"
+echo -e "\033[90mInstalling dependencies & building...\033[0m"
+npm install --quiet
+npm run build --quiet
+npm install -g . --quiet
+
+cd - > /dev/null
+rm -rf "$TEMP_DIR"
 
 echo -e "\n\033[32m╔══════════════════════════════════════════════════════╗"
 echo -e "║  ✓  CAT CLI installed successfully!                  ║"
