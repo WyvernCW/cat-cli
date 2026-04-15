@@ -35,11 +35,13 @@ git clone https://github.com/WyverncW/cat-cli.git $tempDir --quiet
 Push-Location $tempDir
 
 Write-Host "Installing dependencies & building..." -ForegroundColor Gray
-npm install --quiet
+npm install --quiet --no-warnings --loglevel error
 npm run build --quiet
 
-Write-Host "Installing globally..." -ForegroundColor Gray
-npm install -g . --quiet
+Write-Host "Packaging & installing globally..." -ForegroundColor Gray
+$packFile = npm pack --quiet | Out-String
+$packFile = $packFile.Trim()
+npm install -g "$tempDir\$packFile" --quiet --no-warnings --loglevel error
 
 Pop-Location
 Remove-Item -Recurse -Force $tempDir
